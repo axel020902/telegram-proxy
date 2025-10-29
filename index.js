@@ -11,10 +11,12 @@ app.use(cors({
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type']
 }));
-app.use(express.json());
+app.use(express.json({ charset: 'utf-8' }));
+app.use(express.urlencoded({ extended: true, charset: 'utf-8' }));
 
 // Главная страница - информация о сервисе
 app.get('/', (req, res) => {
+    res.setHeader('Content-Type', 'application/json; charset=utf-8');
     res.json({
         service: 'Telegram Proxy Server',
         status: 'active',
@@ -58,7 +60,7 @@ app.post('/send', async (req, res) => {
         const response = await fetch(telegramUrl, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json; charset=utf-8',
             },
             body: JSON.stringify({
                 chat_id: chat_id,
